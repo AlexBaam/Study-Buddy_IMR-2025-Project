@@ -1,18 +1,18 @@
-🌟 Virtual Study Buddy
+# 🌟 Virtual Study Buddy
 
 A well-prepared virtual VR space designed to make studying interactive, fun, and effective.
 
-👥 Team Members
+# 👥 Team Members
 - Acasandrei Nicu-Alexandru (3E1)
 - Ginghina Mihai-Valeriu (3A2)
 
-📝 Description
-# Purpose
+# 📝 Description
+## Purpose
 1	Create a simple approach to learning for people who prefer game-like experiences.
 2	Provide a virtual space equipped with all necessary tools for learning multiple subjects.
 3	Make studying interactive and playful rather than task-like.
-🔗 Similar Products & Relevant Links
-# Product	Link	Key Features
+# 🔗 Similar Products & Relevant Links
+## Product	 Link	 Key Features
 Notion	Visit
 	Flexible productivity & note-taking app; track tasks, take notes, organize study materials, collaborate; easy to use.
 Forest	Visit
