@@ -3,10 +3,8 @@
 A well-prepared virtual VR space designed to make studying interactive, fun, and effective.
 
 👥 Team Members
-
-Acasandrei Nicu-Alexandru (3E1)
-
-Ginghina Mihai-Valeriu (3A2)
+- Acasandrei Nicu-Alexandru (3E1)
+- Ginghina Mihai-Valeriu (3A2)
 
 📝 Description
 #	Purpose
@@ -43,8 +41,6 @@ Customizable Layout	Arrange virtual desk, books, and tools to match personal stu
 Motivation & Focus Aids	Optional timers or goal trackers to improve productivity
 Resource Access	Virtual shelves or panels for textbooks, PDFs, videos, and other study materials
 🗺 User Journey Diagram
-
-(Step-by-step flow through the app — include diagram/image here if available)
 
 🛠 Technologies, Libraries, & Assets
 Technology / Library	Purpose
