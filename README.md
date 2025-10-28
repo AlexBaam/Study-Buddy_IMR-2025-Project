@@ -70,6 +70,4 @@ Users can:
 
 ## 📥 Useful Links  
 - [Week 4 HW: Google Docs](https://docs.google.com/document/d/1DYPC2g2xEWqjdZ2jk6c1_6zRqIgF3lKIwQURg_JFBJA/edit?usp=sharing)
-- [Notion](https://www.notion.com/)  
-- [Forest](https://www.forestapp.cc/)  
-- [My Study Life](https://mystudylife.com/)  
+- [Week 5 HW: ]
