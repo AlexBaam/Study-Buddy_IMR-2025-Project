@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BBasketball
   - Hand
+  - Wall
   layers:
   - Default
   - TransparentFX
