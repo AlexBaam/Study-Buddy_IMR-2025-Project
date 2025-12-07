@@ -8,7 +8,7 @@ Shader "Custom/UnlitDoubleSided"
     {
         Tags { "Queue"="Transparent" "RenderType"="Opaque" }
 
-        Cull Off   // <--- THIS MAKES IT DOUBLE-SIDED
+        Cull Off
 
         Pass
         {
