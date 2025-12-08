@@ -82,6 +82,8 @@ We focused on increasing immersion and conveying the feeling of a concentrated, 
 
 
 
+
+
  Week 10 Progress:
 
 -We made progress on writing on the board (it’s not perfect yet, but we’re getting very close).
