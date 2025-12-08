@@ -71,7 +71,6 @@ Users can:
 ## Progress updates:
 
 Week 9 Progress:
-
 We finally perfected the sticky-note placement on the wall (there were still a few minor bugs left).
 
 We almost fully transitioned out of the blocky prototype phase.
