@@ -80,9 +80,8 @@ Week 9 Progress:
 
 We focused on increasing immersion and conveying the feeling of a concentrated, dedicated space for studying.
 
-
-
-
+<br>
+<br>
 
  Week 10 Progress:
 
