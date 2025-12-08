@@ -70,18 +70,18 @@ Users can:
 
 ## Progress updates:
 
-  For Week 9:
-We finally perfected the sticky-note placement on the wall (there were still a few minor bugs left).
-We almost fully transitioned out of the blocky prototype phase.
-We added a night-time skybox.
-We focused on increasing immersion and conveying the feeling of a concentrated, dedicated space for studying.
+-  For Week 9:
+-We finally perfected the sticky-note placement on the wall (there were still a few minor bugs left).
+-We almost fully transitioned out of the blocky prototype phase.
+-We added a night-time skybox.
+-We focused on increasing immersion and conveying the feeling of a concentrated, dedicated space for studying.
 
 
-  For Week 10:
-We made progress on writing on the board (it’s not perfect yet, but we’re getting very close).
-We added new songs to the radio.
-With the left hand, you can change the radio track.
-With the right hand, you can pause or play the current song.
+-  For Week 10:
+-We made progress on writing on the board (it’s not perfect yet, but we’re getting very close).
+-We added new songs to the radio.
+-With the left hand, you can change the radio track.
+-With the right hand, you can pause or play the current song.
 
 ---
 
