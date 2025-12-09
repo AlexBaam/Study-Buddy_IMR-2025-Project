@@ -2,65 +2,68 @@
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
+[RequireComponent(typeof(XRGrabInteractable))]
 [RequireComponent(typeof(AudioSource))]
-[RequireComponent(typeof(XRSimpleInteractable))]
-public class RadioDebug : MonoBehaviour
+public class RadioController : MonoBehaviour
 {
+    public AudioClip[] songs;
     private AudioSource audioSource;
-    private XRSimpleInteractable interactable;
+    private XRGrabInteractable grab;
+    private int currentSong = 0;
 
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        interactable = GetComponent<XRSimpleInteractable>();
+        grab = GetComponent<XRGrabInteractable>();
     }
 
-    void Start()
+    void OnEnable()
     {
-        Debug.Log("[RADIO] Start() a fost apelat");
+        grab.selectEntered.AddListener(OnGrab);
+        // (optional) grab.selectExited.AddListener(OnRelease);
+    }
 
-        if (audioSource.clip == null)
-            Debug.LogWarning("[RADIO] NU ai setat un AudioClip pe AudioSource!");
-        else
-            Debug.Log("[RADIO] AudioClip este setat: " + audioSource.clip.name);
+    void OnDisable()
+    {
+        grab.selectEntered.RemoveListener(OnGrab);
+        // (optional) grab.selectExited.RemoveListener(OnRelease);
+    }
 
-        audioSource.loop = true;
+    private void OnGrab(SelectEnterEventArgs args)
+    {
+        var interactorObj = args.interactorObject.transform.gameObject;
+
+        if (interactorObj.CompareTag("LeftHand"))
+        {
+            ChangeToNextSong();
+        }
+        else if (interactorObj.CompareTag("RightHand"))
+        {
+            TogglePlayPause();
+        }
+    }
+
+    private void ChangeToNextSong()
+    {
+        if (songs == null || songs.Length == 0) return;
+
+        currentSong = (currentSong + 1) % songs.Length;
+        audioSource.clip = songs[currentSong];
         audioSource.Play();
-
-        if (audioSource.isPlaying)
-            Debug.Log("[RADIO] Muzica a pornit cu succes!");
-        else
-            Debug.LogError("[RADIO] Muzica NU rulează. Verifică AudioSource.");
-
-        // Ascultăm evenimentul pentru select (funcționează și cu ray)
-        interactable.selectEntered.AddListener(OnSelected);
-        interactable.hoverEntered.AddListener(OnHovered);
     }
 
-    private void OnDestroy()
+    private void TogglePlayPause()
     {
-        interactable.selectEntered.RemoveListener(OnSelected);
-        interactable.hoverEntered.RemoveListener(OnHovered);
-    }
-
-    private void OnHovered(HoverEnterEventArgs args)
-    {
-        Debug.Log("[RADIO] Hover pe radio de către: " + args.interactorObject.transform.name);
-    }
-
-    private void OnSelected(SelectEnterEventArgs args)
-    {
-        Debug.Log("[RADIO] Select radio de către: " + args.interactorObject.transform.name);
+        if (audioSource.clip == null) return;
 
         if (audioSource.isPlaying)
         {
-            audioSource.Pause();
-            Debug.Log("[RADIO] Muzica pusă pe PAUZĂ.");
+            audioSource.Pause(); 
         }
         else
         {
-            audioSource.UnPause();
-            Debug.Log("[RADIO] Muzica reluată.");
+            audioSource.Play();
         }
     }
+
 }
