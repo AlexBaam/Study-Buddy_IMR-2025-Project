@@ -68,7 +68,38 @@ Users can:
 
 ---
 
+## Progress updates:
+
+Week 9 Progress:
+
+-We finally perfected the sticky-note placement on the wall (there were still a few minor bugs left).
+
+-We almost fully transitioned out of the blocky prototype phase.
+
+-We added a night-time skybox.
+
+We focused on increasing immersion and conveying the feeling of a concentrated, dedicated space for studying.
+
+<br>
+<br>
+
+ Week 10 Progress:
+
+-We made progress on writing on the board (it’s not perfect yet, but we’re getting very close).
+
+-We added new songs to the radio.
+
+-With the left hand, you can change the radio track.
+
+-With the right hand, you can pause or play the current song.
+
+---
+
 ## 📥 Useful Links  
 - [Week 4 HW: Google Docs](https://docs.google.com/document/d/1DYPC2g2xEWqjdZ2jk6c1_6zRqIgF3lKIwQURg_JFBJA/edit?usp=sharing)
 - [Week 5 HW: Google Docs](https://docs.google.com/document/d/1BKQEjHpzXTuOCK662MSVzzKld6Ny9u0OILJanL0_R80/edit?usp=sharing)
 - [Youtube Playlist: Demo](https://www.youtube.com/watch?v=MFq-ieF0QzA&list=PLUuBYdLxQrRvd7d_atrqwWqcGJALgl6LI)
+
+
+  
+
