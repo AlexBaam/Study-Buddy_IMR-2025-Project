@@ -1,78 +1,71 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
 
-[RequireComponent(typeof(Collider))]
-public class MarkerPaint : MonoBehaviour
+public class WhiteboardMarker : MonoBehaviour
 {
-    [Header("References")]
-    public Whiteboard targetWhiteboard;
-    [Tooltip("Transform that reprezintă vârful markerului (punctul de contact). Dacă e null, se folosește transformul curent.")]
-    public Transform tipTransform;
+    [SerializeField] private Transform tip;
+    [SerializeField] private int penSize = 5;
 
-    [Header("Paint settings")]
-    [Tooltip("Distanța maximă de raycast la care vom detecta whiteboard-ul")]
-    public float rayDistance = 0.05f; // 5 cm
-    [Tooltip("Dacă true: pictăm numai când markerul este prins (grabbed)")]
-    public bool paintOnlyWhenGrabbed = true;
+    private Renderer _renderer;
+    private Color[] _colors;
+    private float _tipHeight;
+    private RaycastHit _touch;
+    private Whiteboard _whiteboard;
+    private Vector2 _touchPos, _lastTouchPos;
+    private bool _touchedLastFrame;
 
-    private UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable xrInteractable;
-    private bool isGrabbed = false;
-
-    void Awake()
+    void Start()
     {
-        if (tipTransform == null) tipTransform = this.transform;
-        xrInteractable = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable>();
-
-        if (xrInteractable != null)
-        {
-            xrInteractable.selectEntered.AddListener(OnSelectEntered);
-            xrInteractable.selectExited.AddListener(OnSelectExited);
-        }
-    }
-
-    void OnDestroy()
-    {
-        if (xrInteractable != null)
-        {
-            xrInteractable.selectEntered.RemoveListener(OnSelectEntered);
-            xrInteractable.selectExited.RemoveListener(OnSelectExited);
-        }
-    }
-
-    void OnSelectEntered(SelectEnterEventArgs args)
-    {
-        isGrabbed = true;
-    }
-
-    void OnSelectExited(SelectExitEventArgs args)
-    {
-        isGrabbed = false;
+        _renderer = GetComponentInChildren<Renderer>();
+        _colors = Enumerable.Repeat(_renderer.material.color, penSize * penSize).ToArray();
+        _tipHeight = tip.localScale.y;
     }
 
     void Update()
     {
-        if (paintOnlyWhenGrabbed && !isGrabbed) return;
-        if (targetWhiteboard == null) return;
-
-        Vector3 origin = tipTransform.position;
-        Vector3 direction = tipTransform.forward;
-
-        RaycastHit hit;
-        if (Physics.Raycast(origin, direction, out hit, rayDistance))
-        {
-            Whiteboard wb = hit.collider.GetComponent<Whiteboard>();
-            if (wb == null && hit.collider.transform != null)
-            {
-                wb = hit.collider.transform.GetComponentInParent<Whiteboard>();
-            }
-
-            if (wb != null)
-            {
-                Vector2 uv = hit.textureCoord;
-                wb.PaintAtUV(uv);
-            }
-        }
+        Draw();
     }
+
+    void Draw()
+    {
+        Vector3 rayDir = -_touch.normal;
+
+        if (Physics.Raycast(tip.position, tip.forward, out _touch, _tipHeight))
+        {
+            if (!_touch.transform.CompareTag("Whiteboard"))
+            {
+                _touchedLastFrame = false;
+                return;
+            }
+
+            if (_whiteboard == null)
+                _whiteboard = _touch.transform.GetComponent<Whiteboard>();
+
+            Vector2 uv = _touch.textureCoord;
+            int x = (int)(uv.x * _whiteboard.textureWidth);
+            int y = (int)(uv.y * _whiteboard.textureHeight);
+
+            if (_touchedLastFrame)
+            {
+                for (float t = 0.01f; t < 1.0f; t += 0.01f)
+                {
+                    int lerpX = (int)Mathf.Lerp(_lastTouchPos.x, x, t);
+                    int lerpY = (int)Mathf.Lerp(_lastTouchPos.y, y, t);
+                    _whiteboard.texture.SetPixels(lerpX, lerpY, penSize, penSize, _colors);
+                }
+            }
+
+            _whiteboard.texture.SetPixels(x, y, penSize, penSize, _colors);
+            _whiteboard.texture.Apply();
+
+            _lastTouchPos = new Vector2(x, y);
+            _touchedLastFrame = true;
+        }
+        else
+        {
+            _touchedLastFrame = false;
+        }
+        Debug.DrawRay(tip.position, tip.forward * _tipHeight, Color.red);
+    }
+
 }

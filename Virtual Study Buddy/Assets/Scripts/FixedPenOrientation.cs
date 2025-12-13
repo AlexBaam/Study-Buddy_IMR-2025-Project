@@ -1,41 +1,35 @@
 ﻿using UnityEngine;
 
-public class PenAlign : MonoBehaviour
+public class MarkerSurfaceStop : MonoBehaviour
 {
-    public Transform pen;  // obiectul "pen"
-    public Transform tip;  // vârful
+    public Transform tip;
+    public LayerMask whiteboardLayer;
+    public float stopDistance = 0.002f;
 
-    private bool isTouching = false;
+    private Rigidbody rb;
 
-    private void OnTriggerEnter(Collider other)
+    void Awake()
     {
-        if (other.CompareTag("Whiteboard"))
-        {
-            isTouching = true;
-        }
+        rb = GetComponent<Rigidbody>();
     }
 
-    private void OnTriggerExit(Collider other)
+    void FixedUpdate()
     {
-        if (other.CompareTag("Whiteboard"))
-        {
-            isTouching = false;
-        }
-    }
+        RaycastHit hit;
 
-    void Update()
-    {
-        if (isTouching)
+        if (Physics.Raycast(tip.position, tip.forward, out hit, 0.02f, whiteboardLayer))
         {
-            // Ray ca să detectăm normalul exact
-            if (Physics.Raycast(tip.position, -tip.forward, out RaycastHit hit, 0.02f))
-            {
-                // face axa penului să fie perpendiculară pe suprafață
-                Quaternion targetRot = Quaternion.FromToRotation(pen.up, hit.normal) * pen.rotation;
+            Vector3 normal = hit.normal;
 
-                // poți folosi și lerp pentru smooth:
-                pen.rotation = Quaternion.Lerp(pen.rotation, targetRot, Time.deltaTime * 40f);
-            }
+            // folosim NOUL API
+            Vector3 v = rb.linearVelocity;
+
+            // eliminăm componenta de viteză spre tablă
+            Vector3 towardSurface = Vector3.Project(v, -normal);
+            rb.linearVelocity = v - towardSurface;
+
+            // poziționare stabilă pe suprafață
+            transform.position = hit.point + normal * stopDistance;
         }
     }
 }
