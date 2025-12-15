@@ -13,6 +13,7 @@ public class StickyNote : MonoBehaviour
     [Header("Stick Settings")]
     public float stickDistance = 0.1f;
     public float stickOffset = 0.002f;
+    public Transform connectionPoint;
 
     [Header("Ignore Collisions While Grabbed")]
     public Collider[] ignoreWhileGrabbed;
