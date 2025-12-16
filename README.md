@@ -93,6 +93,13 @@ We focused on increasing immersion and conveying the feeling of a concentrated, 
 
 -With the right hand, you can pause or play the current song.
 
+
+ Week 11 Progress:
+
+-We repaired a small bug about the radio.
+
+-We started to implement out connection line between sticky notes.
+
 ---
 
 ## 📥 Useful Links  
