@@ -93,6 +93,8 @@ We focused on increasing immersion and conveying the feeling of a concentrated, 
 
 -With the right hand, you can pause or play the current song.
 
+<br>
+<br>
 
  Week 11 Progress:
 
