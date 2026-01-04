@@ -6,30 +6,41 @@ public class StickyNoteConnectable : MonoBehaviour
 {
     StickyNote note;
     XRBaseInteractable interactable;
+    bool isHovered;
 
     void Awake()
     {
         note = GetComponent<StickyNote>();
         interactable = GetComponent<XRBaseInteractable>();
-        interactable.selectEntered.AddListener(OnSelect);
+
+        interactable.hoverEntered.AddListener(OnHoverEntered);
+        interactable.hoverExited.AddListener(OnHoverExited);
     }
 
     void OnDestroy()
     {
-        interactable.selectEntered.RemoveListener(OnSelect);
+        interactable.hoverEntered.RemoveListener(OnHoverEntered);
+        interactable.hoverExited.RemoveListener(OnHoverExited);
     }
 
-    void OnSelect(SelectEnterEventArgs args)
+    void Update()
     {
-        Transform t = args.interactorObject.transform;
-
-        bool isLeft =
-            t.CompareTag("LeftHand") ||
-            (t.parent != null && t.parent.CompareTag("LeftHand"));
-
-        if (!isLeft)
+        if (!isHovered)
             return;
 
-        StickyConnectionManager.Instance.SelectSticky(note);
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            StickyConnectionManager.Instance.SelectSticky(note);
+        }
+    }
+
+    void OnHoverEntered(HoverEnterEventArgs args)
+    {
+        isHovered = true;
+    }
+
+    void OnHoverExited(HoverExitEventArgs args)
+    {
+        isHovered = false;
     }
 }

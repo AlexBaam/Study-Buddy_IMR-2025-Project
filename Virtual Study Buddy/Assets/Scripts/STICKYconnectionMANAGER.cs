@@ -4,11 +4,9 @@ using UnityEngine;
 public class StickyConnectionManager : MonoBehaviour
 {
     public static StickyConnectionManager Instance;
-
     public GameObject connectionPrefab;
 
     StickyNote first;
-
     Dictionary<(StickyNote, StickyNote), StickyConnection> connections = new();
 
     void Awake()
