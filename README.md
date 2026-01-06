@@ -102,6 +102,27 @@ We focused on increasing immersion and conveying the feeling of a concentrated, 
 
 -We started to implement out connection line between sticky notes.
 
+
+Week 12 + holidays Progress:
+
+-We refined the lines between sticky notes.
+
+-Now the connection between sticky notes works without grab.
+
+-We added candles that when you grab they light up or shut off (they include smoke and sounds).
+
+-We made research on how lighting affects the mindset of someone who's trying to study.
+
+-The light source in the project changes it's colour based on the time od the day IRL. (warmer colors at night and colder ones in the morning)
+
+-We fixed a small bug with the corkscrew board (the collider was tricky so we made it a mesh collider convex).
+
+-We made a button that screenshots the writing on the whiteboard.
+
+-We made it that every screenshot goes in a folder that gets created on the user desktop
+
+-We tried 3 youtube tutorials about drawing, still didn't help.
+
 ---
 
 ## 📥 Useful Links  
