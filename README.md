@@ -113,7 +113,7 @@ Week 12 + holidays Progress:
 
 -We made research on how lighting affects the mindset of someone who's trying to study.
 
--The light source in the project changes it's colour based on the time od the day IRL. (warmer colors at night and colder ones in the morning)
+-The light source in the project changes it's colour based on the time of the day IRL. (warmer colors at night and colder ones in the morning)
 
 -We fixed a small bug with the corkscrew board (the collider was tricky so we made it a mesh collider convex).
 
@@ -121,7 +121,7 @@ Week 12 + holidays Progress:
 
 -We made it that every screenshot goes in a folder that gets created on the user desktop
 
--We tried 3 youtube tutorials about drawing, still didn't help.
+-We tried to follow 3 youtube tutorials about drawing on the whiteboard, still didn't help.
 
 ---
 
