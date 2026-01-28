@@ -102,6 +102,8 @@ We focused on increasing immersion and conveying the feeling of a concentrated, 
 
 -We started to implement out connection line between sticky notes.
 
+<br>
+
 
 Week 12 + holidays Progress:
 
