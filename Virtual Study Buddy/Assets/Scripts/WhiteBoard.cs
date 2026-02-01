@@ -48,10 +48,12 @@ public class Whiteboard : MonoBehaviour
         PrepareBrushCache();
     }
 
-    void ClearTexture()
+    public void ClearTexture()
     {
         Color[] fill = new Color[textureWidth * textureHeight];
-        for (int i = 0; i < fill.Length; i++) fill[i] = clearColor;
+        for (int i = 0; i < fill.Length; i++)
+            fill[i] = clearColor;
+
         drawTexture.SetPixels(fill);
         drawTexture.Apply();
     }
