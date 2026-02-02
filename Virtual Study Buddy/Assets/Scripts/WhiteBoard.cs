@@ -28,7 +28,7 @@ public class Whiteboard : MonoBehaviour
 
         if (targetMaterial == null)
         {
-            targetMaterial = meshRenderer.sharedMaterial;
+            targetMaterial = meshRenderer.material;
         }
 
         InitializeTexture();
