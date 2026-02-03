@@ -1,42 +1,53 @@
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit.Inputs;
-using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 
-public class XRWhiteboardRayDrawer3X : MonoBehaviour
+public class WhiteboardKeyboardDrawer : MonoBehaviour
 {
-    [Header("Ray")]
-    public Transform rayOrigin;
+    public KeyCode drawKey = KeyCode.E;
     public float maxDistance = 2f;
     public LayerMask whiteboardLayer;
 
-    [Header("XR Input (optional)")]
-    public XRInputDeviceButtonReader drawButton;
-    [Range(0f, 1f)]
-    public float pressThreshold = 0.1f;
+    Vector2? lastUV = null;
 
-    [Header("Mock / Keyboard")]
-    public KeyCode keyboardKey = KeyCode.E;
+    const float uvStep = 0.002f;
+    const int maxSteps = 64;
 
     void Update()
     {
-        bool drawFromTrigger =
-            drawButton != null && drawButton.ReadValue() >= pressThreshold;
-
-        bool drawFromKeyboard =
-            Input.GetKey(keyboardKey);
-
-        if (!drawFromTrigger && !drawFromKeyboard)
-            return;
-
-        Ray ray = new Ray(rayOrigin.position, rayOrigin.forward);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, whiteboardLayer))
+        if (!Input.GetKey(drawKey))
         {
-            Whiteboard board = hit.collider.GetComponentInParent<Whiteboard>();
-            if (board != null)
-            {
-                board.PaintAtUV(hit.textureCoord);
-            }
+            lastUV = null;
+            return;
+        }
+
+        if (!Physics.Raycast(transform.position, transform.forward,
+            out RaycastHit hit, maxDistance, whiteboardLayer))
+        {
+            lastUV = null;
+            return;
+        }
+
+        Whiteboard board = hit.collider.GetComponentInParent<Whiteboard>();
+        if (board == null) return;
+
+        Vector2 uv = hit.textureCoord;
+
+        if (lastUV.HasValue)
+            DrawSmooth(board, lastUV.Value, uv);
+        else
+            board.PaintAtUV(uv);
+
+        lastUV = uv;
+    }
+
+    void DrawSmooth(Whiteboard board, Vector2 from, Vector2 to)
+    {
+        float dist = Vector2.Distance(from, to);
+        int steps = Mathf.Min(maxSteps, Mathf.CeilToInt(dist / uvStep));
+
+        for (int i = 0; i <= steps; i++)
+        {
+            Vector2 uv = Vector2.Lerp(from, to, i / (float)steps);
+            board.PaintAtUV(uv);
         }
     }
 }

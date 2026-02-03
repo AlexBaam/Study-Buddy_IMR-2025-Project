@@ -1,51 +1,43 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer))]
 public class Whiteboard : MonoBehaviour
 {
-    [Header("Texture settings")]
     public int textureWidth = 2048;
     public int textureHeight = 2048;
     public Color clearColor = Color.white;
 
-    [Header("Brush settings")]
     public Color brushColor = Color.black;
-    [Tooltip("Brush radius in texture pixels")]
     public int brushSize = 24;
 
-    [Header("References")]
     public Material targetMaterial;
 
-    private Texture2D drawTexture;
-    private MeshRenderer meshRenderer;
-    private Color[] brushCache;
+    Texture2D drawTexture;
+    Color[] brushCache;
+    bool dirty = false;
 
     void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
-
-        if (targetMaterial == null)
-        {
-            targetMaterial = meshRenderer.material;
-        }
-
-        InitializeTexture();
-    }
-
-    void InitializeTexture()
-    {
         drawTexture = new Texture2D(textureWidth, textureHeight, TextureFormat.RGBA32, false);
         drawTexture.wrapMode = TextureWrapMode.Clamp;
+
         ClearTexture();
 
-        if (targetMaterial != null)
-        {
-            targetMaterial.mainTexture = drawTexture;
-        }
+        if (targetMaterial == null)
+            targetMaterial = GetComponent<MeshRenderer>().material;
 
-        PrepareBrushCache();
+        targetMaterial.mainTexture = drawTexture;
+
+        PrepareBrush();
+    }
+
+    void LateUpdate()
+    {
+        if (dirty)
+        {
+            drawTexture.Apply();
+            dirty = false;
+        }
     }
 
     public void ClearTexture()
@@ -58,64 +50,44 @@ public class Whiteboard : MonoBehaviour
         drawTexture.Apply();
     }
 
-    void PrepareBrushCache()
+    void PrepareBrush()
     {
-        int diameter = brushSize * 2 + 1;
-        brushCache = new Color[diameter * diameter];
-        int center = brushSize;
-        for (int y = 0; y < diameter; y++)
+        int d = brushSize * 2 + 1;
+        brushCache = new Color[d * d];
+
+        for (int y = 0; y < d; y++)
         {
-            for (int x = 0; x < diameter; x++)
+            for (int x = 0; x < d; x++)
             {
-                int dx = x - center;
-                int dy = y - center;
-                float dist = Mathf.Sqrt(dx * dx + dy * dy);
-                float alpha = dist <= brushSize ? 1f : 0f;
-                brushCache[y * diameter + x] = new Color(brushColor.r, brushColor.g, brushColor.b, alpha);
+                float dist = Vector2.Distance(new Vector2(x, y), new Vector2(brushSize, brushSize));
+                float a = dist <= brushSize ? 1f : 0f;
+                brushCache[y * d + x] = new Color(brushColor.r, brushColor.g, brushColor.b, a);
             }
         }
     }
 
     public void PaintAtUV(Vector2 uv)
     {
-        if (drawTexture == null) return;
+        int px = (int)(uv.x * textureWidth);
+        int py = (int)(uv.y * textureHeight);
 
-        int px = Mathf.RoundToInt(uv.x * (textureWidth - 1));
-        int py = Mathf.RoundToInt(uv.y * (textureHeight - 1));
+        int d = brushSize * 2 + 1;
 
-        int diameter = brushSize * 2 + 1;
-        int startX = px - brushSize;
-        int startY = py - brushSize;
-
-        for (int by = 0; by < diameter; by++)
+        for (int y = 0; y < d; y++)
         {
-            int y = startY + by;
-            if (y < 0 || y >= textureHeight) continue;
+            int ty = py + y - brushSize;
+            if (ty < 0 || ty >= textureHeight) continue;
 
-            for (int bx = 0; bx < diameter; bx++)
+            for (int x = 0; x < d; x++)
             {
-                int x = startX + bx;
-                if (x < 0 || x >= textureWidth) continue;
+                int tx = px + x - brushSize;
+                if (tx < 0 || tx >= textureWidth) continue;
 
-                Color brushPixel = brushCache[by * diameter + bx];
-                if (brushPixel.a <= 0f) continue;
-
-                drawTexture.SetPixel(x, y, Color.Lerp(drawTexture.GetPixel(x, y), brushColor, brushPixel.a));
+                if (brushCache[y * d + x].a > 0)
+                    drawTexture.SetPixel(tx, ty, brushColor);
             }
         }
 
-        drawTexture.Apply();
-    }
-
-    public void SetBrushColor(Color c)
-    {
-        brushColor = c;
-        PrepareBrushCache();
-    }
-
-    public byte[] EncodeToPNG()
-    {
-        if (drawTexture == null) return null;
-        return drawTexture.EncodeToPNG();
+        dirty = true;
     }
 }
