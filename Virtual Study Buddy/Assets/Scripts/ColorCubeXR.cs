@@ -2,34 +2,50 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-public class ColorCubeXR : MonoBehaviour
+public class ColorPickup : MonoBehaviour
 {
-    Vector3 startPos;
-    Quaternion startRot;
+    public Whiteboard whiteboard;
+    public Color color = Color.black;
 
     XRGrabInteractable grab;
-    Renderer rend;
+    Rigidbody rb;
+
+    Vector3 startPosition;
+    Quaternion startRotation;
 
     void Awake()
     {
-        startPos = transform.position;
-        startRot = transform.rotation;
-
         grab = GetComponent<XRGrabInteractable>();
-        rend = GetComponent<Renderer>();
+        rb = GetComponent<Rigidbody>();
 
-        grab.selectEntered.AddListener(OnGrab);
-        grab.selectExited.AddListener(OnRelease);
+        startPosition = transform.position;
+        startRotation = transform.rotation;
+
+        grab.selectEntered.AddListener(OnGrabbed);
+        grab.selectExited.AddListener(OnReleased);
     }
 
-    void OnGrab(SelectEnterEventArgs args)
+    void OnGrabbed(SelectEnterEventArgs args)
     {
-        WhiteboardColorManager.Instance.SetColor(rend.material.color);
+        if (whiteboard == null) return;
+
+        whiteboard.brushColor = color;
+        whiteboard.PrepareBrush();
     }
 
-    void OnRelease(SelectExitEventArgs args)
+    void OnReleased(SelectExitEventArgs args)
     {
-        transform.position = startPos;
-        transform.rotation = startRot;
+        grab.enabled = false;
+
+        rb.isKinematic = true;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        rb.position = startPosition;
+        rb.rotation = startRotation;
+
+        rb.isKinematic = false;
+
+        grab.enabled = true;
     }
 }

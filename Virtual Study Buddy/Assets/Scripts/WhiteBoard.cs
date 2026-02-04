@@ -50,7 +50,7 @@ public class Whiteboard : MonoBehaviour
         drawTexture.Apply();
     }
 
-    void PrepareBrush()
+    public void PrepareBrush()
     {
         int d = brushSize * 2 + 1;
         brushCache = new Color[d * d];
