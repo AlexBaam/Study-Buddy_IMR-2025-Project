@@ -127,6 +127,11 @@ Week 12 + holidays Progress:
 
 ---
 
+## Final presentation video link:
+   https://www.youtube.com/watch?v=GgWxqIRF31w
+
+---
+
 ## 📥 Useful Links  
 - [Week 4 HW: Google Docs](https://docs.google.com/document/d/1DYPC2g2xEWqjdZ2jk6c1_6zRqIgF3lKIwQURg_JFBJA/edit?usp=sharing)
 - [Week 5 HW: Google Docs](https://docs.google.com/document/d/1BKQEjHpzXTuOCK662MSVzzKld6Ny9u0OILJanL0_R80/edit?usp=sharing)
