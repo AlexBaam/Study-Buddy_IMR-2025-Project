@@ -1,8 +1,13 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WhiteboardKeyboardDrawer : MonoBehaviour
 {
     public KeyCode drawKey = KeyCode.E;
+
+    [Header("XR")]
+    public InputActionReference triggerAction;
+
     public float maxDistance = 2f;
     public LayerMask whiteboardLayer;
 
@@ -11,9 +16,25 @@ public class WhiteboardKeyboardDrawer : MonoBehaviour
     const float uvStep = 0.002f;
     const int maxSteps = 64;
 
+    void OnEnable()
+    {
+        if (triggerAction != null)
+            triggerAction.action.Enable();
+    }
+
+    void OnDisable()
+    {
+        if (triggerAction != null)
+            triggerAction.action.Disable();
+    }
+
     void Update()
     {
-        if (!Input.GetKey(drawKey))
+        bool keyboardPressed = Input.GetKey(drawKey);
+        bool triggerPressed = triggerAction != null &&
+                              triggerAction.action.ReadValue<float>() > 0.1f;
+
+        if (!keyboardPressed && !triggerPressed)
         {
             lastUV = null;
             return;
