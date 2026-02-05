@@ -129,9 +129,9 @@ Week 12 + holidays Progress:
 
 ## Links for the funal project
 
-https://youtu.be/DEERzPIWcFw
+- https://youtu.be/DEERzPIWcFw
 
-https://www.youtube.com/watch?v=GgWxqIRF31w
+- https://www.youtube.com/watch?v=GgWxqIRF31w
 
 ---
 
