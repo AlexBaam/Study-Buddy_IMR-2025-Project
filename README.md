@@ -125,6 +125,23 @@ Week 12 + holidays Progress:
 
 -We tried to follow 3 youtube tutorials about drawing on the whiteboard, still didn't help.
 
+<br>
+<br>
+
+ Week 13 Progress:
+
+-Finally made the whiteboard fully functional
+
+-We moved from the Pen idea to raycast
+
+-Added the option to use different colors on the whiteboard (Black, Blue, Yellow)
+
+-Made the drawing be smooth (Initially, since raycast, the project would freeze or move extremely slow (1 frame per second) (we solved using interpolation)
+
+-Fount the MRTK keyboard, a good start for writing on StickyNotes
+
+<br>
+
 ---
 
 ## Final presentation video link:
